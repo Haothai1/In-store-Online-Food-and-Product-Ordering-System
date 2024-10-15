@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get 'products/edit'
   get 'products/update'
   get 'products/destroy'
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   get 'welcome/index'
   # Root route
   root 'welcome#index'
