@@ -1,0 +1,26 @@
+<h1>Your Profile</h1>
+
+<h2>Personal Information</h2>
+<p>Name: <%= @user.name %></p>
+<p>Email: <%= @user.email %></p>
+<p>Phone: <%= @user.phone %></p>
+
+<%= link_to 'Edit Profile', edit_profile_path %>
+
+<h2>Your Addresses</h2>
+<% @addresses.each do |address| %>
+  <div>
+    <%= address.street %>, <%= address.city %>, <%= address.state %> <%= address.zip %>
+    <%= link_to 'Edit', edit_address_path(address) %>
+    <%= button_to 'Delete', address_path(address), method: :delete, data: { turbo_confirm: 'Are you sure?' } %>
+  </div>
+<% end %>
+<%= link_to 'Add New Address', new_address_path %>
+
+<h2>Past Orders</h2>
+<% @orders.each do |order| %>
+  <div>
+    Order #<%= order.id %> - <%= order.created_at.strftime('%B %d, %Y') %>
+    <%= link_to 'View Details', order_path(order) %>
+  </div>
+<% end %>

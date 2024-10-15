@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'profiles/show'
+  get 'profiles/edit'
+  get 'profiles/update'
   get 'users/show'
   get 'order_items/create'
   get 'food_items/index'
@@ -32,4 +35,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  # profile management, allow to edit user details
+  resource :profile, only: [:show, :edit, :update]
+  resources :addresses
+  resources :orders, only: [:index, :show]
 end

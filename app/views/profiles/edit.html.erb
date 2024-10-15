@@ -1,0 +1,20 @@
+<h1>Edit Your Profile</h1>
+
+<%= form_for @user, url: profile_path, method: :patch do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  </div>
+
+  <div>
+    <%= f.label :phone %>
+    <%= f.telephone_field :phone %>
+  </div>
+
+  <%= f.submit 'Update Profile' %>
+<% end %>
