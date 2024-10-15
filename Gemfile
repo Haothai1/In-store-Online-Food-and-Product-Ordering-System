@@ -79,3 +79,11 @@ end
 
 gem 'bootstrap', '~> 5.3.0'
 gem 'sassc-rails'
+
+# social media or email login options
+
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+
+gem 'dotenv-rails', groups: [:development, :test]
