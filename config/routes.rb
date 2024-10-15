@@ -39,4 +39,9 @@ Rails.application.routes.draw do
   resource :profile, only: [:show, :edit, :update]
   resources :addresses
   resources :orders, only: [:index, :show]
+
+  # user product browsing
+  resources :products
+  get 'menu', to: 'products#menu'
+  get 'store', to: 'products#store'
 end

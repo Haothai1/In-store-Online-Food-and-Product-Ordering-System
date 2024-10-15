@@ -1,4 +1,14 @@
 class Product < ApplicationRecord
   has_many :order_items, as: :item
-  validates :name, :price, :stock_quantity, presence: true
+  validates :name, :price, presence: true
+  validates :stock_quantity, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  
+  # Set a default value:
+  after_initialize :set_default_stock_quantity, if: :new_record?
+
+  private
+
+  def set_default_stock_quantity
+    self.stock_quantity ||= 0
+  end
 end
