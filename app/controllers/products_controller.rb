@@ -1,11 +1,12 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: %i[show edit update destroy]
+  before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   def index
     @products = Product.all
   end
 
   def show
+    @product = Product.find(params[:id])
   end
 
   def new
@@ -14,8 +15,9 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
+
     if @product.save
-      redirect_to @product, notice: 'Product was successfully created.'
+      redirect_to products_path, notice: 'Product was successfully created.'
     else
       render :new
     end
@@ -26,8 +28,10 @@ class ProductsController < ApplicationController
 
   def update
     if @product.update(product_params)
-      redirect_to @product, notice: 'Product was successfully updated.'
+      puts "Product updated successfully. Redirecting to #{products_path}"
+      redirect_to products_path, notice: 'Product was successfully updated.'
     else
+      puts "Product update failed. Rendering edit form."
       render :edit
     end
   end
@@ -37,6 +41,14 @@ class ProductsController < ApplicationController
     redirect_to products_url, notice: 'Product was successfully deleted.'
   end
 
+  def menu
+    @menu_items = Product.where(category: 'Food')
+  end
+
+  def store
+    @store_items = Product.where(category: 'Store')
+  end
+
   private
 
   def set_product
@@ -44,6 +56,6 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :stock_quantity, :category, :on_sale)
+    params.require(:product).permit(:name, :description, :price, :category, :stock_quantity)
   end
 end

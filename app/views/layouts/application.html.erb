@@ -14,7 +14,10 @@
   <body>
     <header>
       <nav>
-        <%= link_to "Home", root_path %>
+        <%= link_to 'Home', root_path %>
+        <%= link_to 'All Products', products_path %>
+        <%= link_to 'Menu', menu_path %>
+        <%= link_to 'Store', store_path %>
         <% if user_signed_in? %>
           <%= link_to 'My Profile', profile_path %>
           <%= button_to "Logout", destroy_user_session_path, method: :delete %>
