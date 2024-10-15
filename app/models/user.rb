@@ -16,6 +16,10 @@ class User < ApplicationRecord
       # user.skip_confirmation!
     end
   end
-
+  
+  # profile management
+  has_many :addresses
   has_many :orders
+
+  validates :phone, presence: true, format: { with: /\A\d{10}\z/, message: "should be 10 digits" }
 end
