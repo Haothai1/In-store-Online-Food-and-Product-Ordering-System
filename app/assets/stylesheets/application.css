@@ -14,3 +14,30 @@
  *= require_self
  */
 @import "bootstrap";
+
+.menu-items, .store-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.menu-item, .store-item {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  width: calc(33.333% - 20px);
+  box-sizing: border-box;
+}
+
+.menu-item h2, .store-item h2 {
+  margin-top: 0;
+}
+
+.price {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.stock {
+  color: #28a745;
+}
