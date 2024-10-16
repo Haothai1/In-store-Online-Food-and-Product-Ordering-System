@@ -1,0 +1,17 @@
+<h1>Your Cart</h1>
+
+<% if @cart.cart_items.empty? %>
+  <p>Your cart is empty.</p>
+<% else %>
+  <ul>
+    <%= render partial: 'cart_item', collection: @cart.cart_items %>
+  </ul>
+
+  <p>Total: <%= number_to_currency(@cart.total_price) %></p>
+
+  <%= form_tag checkout_cart_path, method: :post do %>
+    <%= submit_tag 'Proceed to Checkout' %>
+  <% end %>
+<% end %>
+
+<%= link_to 'Continue Shopping', root_path %>
