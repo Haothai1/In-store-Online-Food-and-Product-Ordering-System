@@ -2,7 +2,11 @@ class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   def index
-    @products = Product.all
+    @products = if params[:query].present?
+                  Product.where("name ILIKE ?", "%#{params[:query]}%")
+                else
+                  Product.all
+                end
   end
 
   def show
@@ -47,6 +51,11 @@ class ProductsController < ApplicationController
 
   def store
     @store_items = Product.where(category: 'Store')
+  end
+
+  def search
+    @products = Product.where("name ILIKE ? OR description ILIKE ?", "%#{params[:query]}%", "%#{params[:query]}%")
+    render partial: 'product_list', locals: { products: @products }
   end
 
   private

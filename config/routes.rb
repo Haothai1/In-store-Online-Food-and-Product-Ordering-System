@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'store/index'
+  get 'menu/index'
   get 'profiles/show'
   get 'profiles/edit'
   get 'profiles/update'
@@ -41,7 +43,13 @@ Rails.application.routes.draw do
   resources :orders, only: [:index, :show]
 
   # user product browsing
-  resources :products
-  get 'menu', to: 'products#menu'
-  get 'store', to: 'products#store'
+  resources :products do
+    # search functionality
+    collection do
+      get 'search'
+    end
+  end
+  
+  get '/menu', to: 'menu#index'
+  get '/store', to: 'store#index'
 end

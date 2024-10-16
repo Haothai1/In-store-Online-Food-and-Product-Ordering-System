@@ -1,0 +1,17 @@
+<h1>Store</h1>
+
+<%= form_with(url: store_path, method: :get, local: true) do |form| %>
+  <%= form.text_field :query, placeholder: "Search store items...", value: params[:query] %>
+  <%= form.submit "Search" %>
+<% end %>
+
+<div class="store-items">
+  <% @store_items.each do |item| %>
+    <div class="store-item">
+      <h2><%= item.name %></h2>
+      <p><%= item.description %></p>
+      <p class="price"><%= number_to_currency(item.price) %></p>
+      <p class="stock">In stock: <%= item.stock_quantity %></p>
+    </div>
+  <% end %>
+</div>
