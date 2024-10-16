@@ -12,6 +12,7 @@
       <p><%= item.description %></p>
       <p class="price"><%= number_to_currency(item.price) %></p>
       <p class="stock">In stock: <%= item.stock_quantity %></p>
+      <%= button_to 'Add to Cart', add_item_cart_path(item), method: :post %>
     </div>
   <% end %>
 </div>
