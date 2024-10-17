@@ -1,0 +1,6 @@
+<%= link_to cart_path, id: "cart" do %>
+  Cart (<span data-cart-target="count"><%= cart&.total_items || 0 %></span>)
+<% end %>
+
+<%= button_to 'Add to Cart', add_item_cart_path(item), method: :post, form: { data: { turbo_stream: true } } %>
+

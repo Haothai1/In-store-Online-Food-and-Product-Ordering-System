@@ -3,15 +3,26 @@
 <% if @cart.cart_items.empty? %>
   <p>Your cart is empty.</p>
 <% else %>
-  <ul>
-    <%= render partial: 'cart_item', collection: @cart.cart_items %>
-  </ul>
+  <% @cart.cart_items.each do |item| %>
+    <div class="cart-item">
+      <h3><%= item.product.name %></h3>
+      <p>Quantity: <%= item.quantity %></p>
+      <p>Price: <%= number_to_currency(item.product.price * item.quantity) %></p>
+      <p>In stock: <%= item.product.stock_quantity %></p>
+      <% if item.quantity > item.product.stock_quantity %>
+        <p class="text-danger">Out of stock!</p>
+      <% end %>
+      <%= button_to 'Remove', remove_item_cart_path(id: item.id), method: :delete, form: { data: { turbo: true } } %>
+    </div>
+  <% end %>
 
   <p>Total: <%= number_to_currency(@cart.total_price) %></p>
 
-  <%= form_tag checkout_cart_path, method: :post do %>
-    <%= submit_tag 'Proceed to Checkout' %>
+  <% if @cart.cart_items.any? && @cart.all_items_in_stock? %>
+    <%= button_to 'Checkout', checkout_cart_path, method: :post, data: { confirm: 'Are you sure you want to complete this purchase?' } %>
+  <% elsif @cart.cart_items.any? %>
+    <p class="text-danger">Some items are out of stock. Please update your cart before checking out.</p>
   <% end %>
 <% end %>
 
-<%= link_to 'Continue Shopping', root_path %>
+<%= link_to 'Continue Shopping', products_path %>

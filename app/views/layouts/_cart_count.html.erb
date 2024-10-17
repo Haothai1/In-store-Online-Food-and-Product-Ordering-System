@@ -1,0 +1,3 @@
+<% Rails.logger.debug "Cart ID: #{cart&.id}, Total Items: #{cart&.total_items}" %>
+<span id="cart-count"><%= cart&.total_items || 0 %></span>
+

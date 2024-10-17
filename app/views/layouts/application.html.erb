@@ -10,14 +10,16 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-controller="cart">
     <header>
-      <nav>
+      <nav data-controller="cart">
         <%= link_to 'Home', root_path %>
         <%= link_to 'All Products', products_path %>
         <%= link_to 'Menu', menu_path %>
         <%= link_to 'Store', store_path %>
-        <%= link_to 'Cart', cart_path %>
+        <%= link_to cart_path, id: 'cart-link' do %>
+          Cart (<span id="cart-count"><%= current_cart.cart_items.sum(:quantity) %></span>)
+        <% end %>
         <% if user_signed_in? %>
           <%= link_to 'My Profile', profile_path %>
           <%= button_to "Logout", destroy_user_session_path, method: :delete %>
@@ -32,5 +34,6 @@
     <p class="alert"><%= alert %></p>
     
     <%= yield %>
+
   </body>
 </html>
