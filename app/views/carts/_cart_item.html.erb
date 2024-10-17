@@ -3,3 +3,8 @@
   <%= number_to_currency(cart_item.product.price) %> each
   <%= button_to 'Remove', remove_item_cart_path(cart_item), method: :delete %>
 </li>
+
+<li class="cart-item">
+  <%= cart_item.product.name %> - Quantity: <%= cart_item.quantity %> - Price: <%= number_to_currency(cart_item.total_price) %>
+  <%= button_to 'Remove', remove_item_cart_path(id: cart_item.id), method: :delete, form: { data: { turbo: true } } %>
+</li>

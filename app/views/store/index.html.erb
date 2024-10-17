@@ -12,7 +12,11 @@
       <p><%= item.description %></p>
       <p class="price"><%= number_to_currency(item.price) %></p>
       <p class="stock">In stock: <%= item.stock_quantity %></p>
-      <%= button_to 'Add to Cart', add_item_cart_path(item), method: :post %>
+      <% if product_in_stock?(item) %>
+        <%= button_to 'Add to Cart', add_item_cart_path(product_id: item.id), method: :post, class: 'btn btn-primary' %>
+      <% else %>
+        <%= button_tag 'Out of Stock', class: 'btn btn-secondary', disabled: true %>
+      <% end %>
     </div>
   <% end %>
 </div>

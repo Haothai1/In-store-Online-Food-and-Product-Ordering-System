@@ -1,0 +1,13 @@
+<% if cart_items.any? %>
+  <ul class="cart-items">
+    <% cart_items.each do |item| %>
+      <li class="cart-item">
+        <%= item.product.name %> - Quantity: <%= item.quantity %> - Price: <%= number_to_currency(item.total_price) %>
+        <%= button_to 'Remove', remove_item_cart_path(id: item.id), method: :delete, form: { data: { turbo: true } } %>
+      </li>
+    <% end %>
+  </ul>
+  <p>Total: <%= number_to_currency(cart_items.sum(&:total_price)) %></p>
+<% else %>
+  <p>Your cart is empty.</p>
+<% end %>

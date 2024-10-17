@@ -1,5 +1,5 @@
 class Cart < ApplicationRecord
-  has_many :cart_items
+  has_many :cart_items, dependent: :destroy
   has_many :products, through: :cart_items
 
   scope :open, -> { where(status: 'open') }
@@ -13,7 +13,15 @@ class Cart < ApplicationRecord
     end
   end
 
+  def total_items
+    cart_items.sum(:quantity)
+  end
+
   def total_price
-    cart_items.sum { |item| item.product.price * item.quantity }
+    cart_items.sum(&:total_price)
+  end
+
+  def all_items_in_stock?
+    cart_items.all? { |item| item.quantity <= item.product.stock_quantity }
   end
 end

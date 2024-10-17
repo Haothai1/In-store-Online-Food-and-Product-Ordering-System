@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   # allow user to change their name
   before_action :configure_permitted_parameters, if: :devise_controller?
-  # cart
+  before_action :set_current_cart
   helper_method :current_cart
 
   protected
@@ -14,10 +14,18 @@ class ApplicationController < ActionController::Base
   private
   # cart to allow user to add items to their cart
   def current_cart
-    Cart.find(session[:cart_id])
-  rescue ActiveRecord::RecordNotFound
-    cart = Cart.create
-    session[:cart_id] = cart.id
-    cart
+    @current_cart ||= Cart.find_by(id: session[:cart_id])
+    if @current_cart.nil?
+      @current_cart = Cart.create
+      session[:cart_id] = @current_cart.id
+    end
+    @current_cart
+  end
+
+  def set_current_cart
+    if current_cart.nil?
+      @current_cart = Cart.create
+      session[:cart_id] = @current_cart.id
+    end
   end
 end
