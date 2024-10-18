@@ -14,6 +14,8 @@ class Product < ApplicationRecord
     stock_quantity > 0
   end
 
+  has_many_attached :images
+
   private
   
   def set_default_stock_quantity

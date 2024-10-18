@@ -1,26 +1,81 @@
-<h1>Your Profile</h1>
-
-<h2>Personal Information</h2>
-<p>Name: <%= @user.name %></p>
-<p>Email: <%= @user.email %></p>
-<p>Phone: <%= @user.phone %></p>
-
-<%= link_to 'Edit Profile', edit_profile_path %>
-
-<h2>Your Addresses</h2>
-<% @addresses.each do |address| %>
-  <div>
-    <%= address.street %>, <%= address.city %>, <%= address.state %> <%= address.zip %>
-    <%= link_to 'Edit', edit_address_path(address) %>
-    <%= button_to 'Delete', address_path(address), method: :delete, data: { turbo_confirm: 'Are you sure?' } %>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body text-center">
+          
+          <h5 class="card-title"><%= current_user.name %></h5>
+          <p class="card-text text-muted"><%= current_user.email %></p>
+          <%= link_to "Edit Profile", edit_profile_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Profile Information</h5>
+          <hr>
+          <div class="row mb-3">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Full Name</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              <%= current_user.name %>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Email</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              <%= current_user.email %>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Phone</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              <%= current_user.phone || "Not provided" %>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-sm-3">
+              <h6 class="mb-0">Member Since</h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+              <%= current_user.created_at.strftime("%B %d, %Y") %>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card mt-3">
+        <div class="card-body">
+          <h5 class="card-title">Recent Orders</h5>
+          <hr>
+          <% if current_user.orders.any? %>
+            <ul class="list-group list-group-flush">
+              <% current_user.orders.order(created_at: :desc).limit(5).each do |order| %>
+                <li class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      Order #<%= order.id %> - <%= order.created_at.strftime("%B %d, %Y") %>
+                    </div>
+                    <div>
+                      <%= number_to_currency(order.total_price) %>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+            <%= link_to "View All Orders", order_history_path, class: "btn btn-outline-primary mt-3" %>
+          <% else %>
+            <p class="text-muted">No orders yet.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-<% end %>
-<%= link_to 'Add New Address', new_address_path %>
-
-<h2>Past Orders</h2>
-<% @orders.each do |order| %>
-  <div>
-    Order #<%= order.id %> - <%= order.created_at.strftime('%B %d, %Y') %>
-    <%= link_to 'View Details', order_history_path %>
-  </div>
-<% end %>
+</div>

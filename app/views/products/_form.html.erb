@@ -36,6 +36,21 @@
     <%= form.number_field :stock_quantity, class: 'form-control' %>
   </div>
 
+  <div data-controller="dropzone">
+    <%= form.label :images, "Product Images", class: "form-label" %>
+    <div class="dropzone border border-2 border-dashed rounded p-4 text-center" 
+         style="cursor: pointer;">
+      Drag images here or
+      <%= form.file_field :images, multiple: true, direct_upload: true, 
+                          class: "d-none", 
+                          data: { dropzone_target: "input" } %>
+      <button type="button" class="btn btn-secondary btn-sm" onclick="this.previousElementSibling.click()">
+        Choose files
+      </button>
+    </div>
+    <div data-dropzone-target="preview" class="mt-3"></div>
+  </div>
+
   <div class="actions">
     <%= form.submit class: 'btn btn-primary' %>
   </div>
