@@ -66,4 +66,5 @@ Rails.application.routes.draw do
   end
 
   get 'order_history', to: 'order_history#index'
+  delete 'order_history/:id', to: 'order_history#destroy'
 end

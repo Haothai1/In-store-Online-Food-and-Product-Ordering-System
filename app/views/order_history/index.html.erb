@@ -5,12 +5,12 @@
     <div class="accordion" id="orderAccordion">
       <% @orders.each_with_index do |order, index| %>
         <div class="accordion-item">
-          <h2 class="accordion-header" id="heading<%= index %>">
-            <button class="accordion-button <%= 'collapsed' unless index.zero? %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="<%= index.zero? ? 'true' : 'false' %>" aria-controls="collapse<%= index %>">
+          <h2 class="accordion-header" id="heading<%= order.id %>">
+            <button class="accordion-button <%= 'collapsed' unless index.zero? %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= order.id %>" aria-expanded="<%= index.zero? ? 'true' : 'false' %>" aria-controls="collapse<%= order.id %>">
               Order #<%= order.id %> - <%= order.created_at.strftime("%B %d, %Y") %> - <%= number_to_currency(order.total_price) %>
             </button>
           </h2>
-          <div id="collapse<%= index %>" class="accordion-collapse collapse <%= 'show' if index.zero? %>" aria-labelledby="heading<%= index %>" data-bs-parent="#orderAccordion">
+          <div id="collapse<%= order.id %>" class="accordion-collapse collapse <%= 'show' if index.zero? %>" aria-labelledby="heading<%= order.id %>" data-bs-parent="#orderAccordion">
             <div class="accordion-body">
               <p><strong>Status:</strong> <%= order.status.capitalize %></p>
               <p><strong>Order Type:</strong> <%= order.order_type.capitalize %></p>
@@ -37,8 +37,6 @@
   <% end %>
 
   <div class="mt-4">
-    <%= link_to 'Back to Store', store_path, class: 'btn btn-secondary me-2' %>
-    <%= link_to 'Back to Menu', menu_path, class: 'btn btn-secondary' %>
+    <%= link_to 'Back to Store', store_path, class: 'btn btn-secondary' %>
   </div>
-  
 </div>
