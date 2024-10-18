@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'order_history/index'
   get 'carts/show'
   get 'carts/add_item'
   get 'carts/remove_item'
@@ -63,4 +64,6 @@ Rails.application.routes.draw do
     delete 'remove_item/:id', to: 'carts#remove_item', as: 'remove_item'
     post 'checkout', to: 'carts#checkout', as: 'checkout'
   end
+
+  get 'order_history', to: 'order_history#index'
 end

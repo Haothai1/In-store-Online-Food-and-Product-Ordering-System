@@ -21,6 +21,6 @@
 <% @orders.each do |order| %>
   <div>
     Order #<%= order.id %> - <%= order.created_at.strftime('%B %d, %Y') %>
-    <%= link_to 'View Details', order_path(order) %>
+    <%= link_to 'View Details', order_history_path %>
   </div>
 <% end %>

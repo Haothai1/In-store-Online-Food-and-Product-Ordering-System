@@ -21,6 +21,7 @@
           Cart (<span id="cart-count"><%= current_cart.cart_items.sum(:quantity) %></span>)
         <% end %>
         <% if user_signed_in? %>
+        <%= link_to 'Order History', order_history_path %>
           <%= link_to 'My Profile', profile_path %>
           <%= button_to "Logout", destroy_user_session_path, method: :delete %>
         <% else %>
