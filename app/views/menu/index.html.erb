@@ -1,14 +1,29 @@
-<h1>Food Menu</h1>
+<div class="container mt-4">
+  <h1 class="mb-4">Food Menu</h1>
 
-<% @menu_items.each do |item| %>
-  <div class="menu-item">
-    <h2><%= link_to item.name, product_path(item) %></h2>
-    <p><%= item.description %></p>
-    <p>Price: <%= number_to_currency(item.price) %></p>
-    <% if product_in_stock?(item) %>
-      <%= button_to 'Add to Cart', add_item_cart_path(product_id: item.id), method: :post, class: 'btn btn-primary' %>
-    <% else %>
-      <%= button_tag 'Out of Stock', class: 'btn btn-secondary', disabled: true %>
+  <%= form_with(url: menu_path, method: :get, local: true, class: 'mb-4') do |form| %>
+    <div class="d-flex">
+      <%= form.text_field :query, placeholder: "Search menu items...", value: params[:query], class: 'form-control me-2' %>
+      <%= form.submit "Search", class: 'btn btn-outline-secondary' %>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <% @menu_items.each do |item| %>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= link_to item.name, product_path(item) %></h5>
+            <p class="card-text"><%= truncate(item.description, length: 100) %></p>
+            <p class="card-text"><strong>Price: <%= number_to_currency(item.price) %></strong></p>
+            <% if product_in_stock?(item) %>
+              <%= button_to 'Add to Cart', add_item_cart_path(product_id: item.id), method: :post, class: 'btn btn-primary' %>
+            <% else %>
+              <%= button_tag 'Out of Stock', class: 'btn btn-secondary', disabled: true %>
+            <% end %>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
-<% end %>
+</div>
