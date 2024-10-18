@@ -1,0 +1,16 @@
+.product-search {
+  .product-search-input:focus {
+    z-index: 1;
+    position: relative;
+  }
+
+  .product-search-button {
+    z-index: 2;
+    position: relative;
+  }
+
+  .product-search-input:focus + .product-search-button {
+    z-index: 3;
+  }
+}
+

@@ -1,4 +1,6 @@
 class CartsController < ApplicationController
+  before_action :authenticate_user!, only: [:checkout]
+
   def show
     @cart = current_cart
     @cart_items = @cart.cart_items.includes(:product)
@@ -41,6 +43,12 @@ class CartsController < ApplicationController
   end
 
   def checkout
+    # Ensure user is logged in
+    unless current_user
+      redirect_to login_path, alert: "Please log in to complete your order."
+      return
+    end
+
     @cart = current_cart
 
     ActiveRecord::Base.transaction do
