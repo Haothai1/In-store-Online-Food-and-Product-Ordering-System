@@ -44,21 +44,38 @@ class CartsController < ApplicationController
     @cart = current_cart
 
     ActiveRecord::Base.transaction do
+      # Create a new order
+      order = current_user.orders.new(
+        status: 'completed',
+        total_price: @cart.total_price,
+        order_type: 'online'
+      )
+
       @cart.cart_items.each do |cart_item|
         product = cart_item.product
         if product.stock_quantity >= cart_item.quantity
           new_quantity = product.stock_quantity - cart_item.quantity
           product.update!(stock_quantity: new_quantity)
+          
+          # Create an order item for each cart item
+          order.order_items.new(
+            product_id: product.id,
+            quantity: cart_item.quantity,
+            price: product.price
+          )
         else
           raise ActiveRecord::Rollback, "Not enough stock for #{product.name}"
         end
       end
 
+      # Save the order
+      order.save!
+
       @cart.update!(status: 'completed')
       session[:cart_id] = nil
     end
 
-    redirect_to root_path, notice: 'Thank you for your purchase!'
+    redirect_to order_history_path, notice: 'Thank you for your purchase!'
   rescue ActiveRecord::Rollback => e
     redirect_to cart_path, alert: e.message
   end
